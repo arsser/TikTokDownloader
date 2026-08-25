@@ -1050,12 +1050,16 @@ class Parameter:
                 i,
             ):
                 API.params[i] = v
-        self.ab = ABogus(
-            ua,
-            info.get(
-                "browser_platform",
-            ),
-        )
+        Ab = type(self.ab)
+        try:
+            self.ab = Ab(
+                ua,
+                info.get(
+                    "browser_platform",
+                ),
+            )
+        except TypeError:
+            self.ab = Ab()
 
     def __set_browser_info_tiktok(
         self,

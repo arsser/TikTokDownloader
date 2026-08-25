@@ -1,6 +1,6 @@
 from time import time
 from typing import TYPE_CHECKING, Callable, Coroutine, Type, Union
-from urllib.parse import quote, urlencode
+from urllib.parse import quote, urlencode, urlparse
 
 from httpx import AsyncClient, get, post
 from rich.progress import (
@@ -40,8 +40,8 @@ class API:
         "version_code": "290100",
         "version_name": "29.1.0",
         "cookie_enabled": "true",
-        "screen_width": "1536",
-        "screen_height": "864",
+        "screen_width": "1920",
+        "screen_height": "1080",
         "browser_language": "zh-CN",
         "browser_platform": "Win32",
         "browser_name": "Chrome",
@@ -51,8 +51,8 @@ class API:
         "engine_version": "150.0.0.0",
         "os_name": "Windows",
         "os_version": "10",
-        "cpu_core_num": "16",
-        "device_memory": "8",
+        "cpu_core_num": "12",
+        "device_memory": "32",
         "platform": "PC",
         "downlink": "10",
         "effective_type": "4g",
@@ -436,6 +436,10 @@ class API:
                 safe="=",
                 quote_via=quote,
             )
+            if getattr(self, "api", None) and hasattr(self.ab, "path"):
+                path = urlparse(self.api).path
+                if path:
+                    self.ab.path = path
             params += f"&a_bogus={self.ab.get_value(params, data, method, user_agent=self.headers['User-Agent'])}"
             return params
         return ""

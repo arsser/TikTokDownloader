@@ -1,0 +1,18 @@
+# TikTokDownloader Web API for Douyin-Refine (fetch / transcribe).
+# Cookie: Douyin-Refine/scripts/apply_tiktok_cookie.py → Volume/settings.json
+services:
+  tiktok-downloader:
+    image: ghcr.io/joeanamier/tiktok-downloader:latest
+    container_name: tiktok-downloader
+    ports:
+      - "5555:5555"
+      - "5556:5556"
+    volumes:
+      - ./Volume:/app/Volume
+      - ./src/custom/static.py:/app/src/custom/static.py:ro
+      - ./scripts/tiktok-downloader-entrypoint.sh:/entrypoint.sh:ro
+      - ./scripts/douyin-collection-server.py:/app/douyin-collection-server.py:ro
+    entrypoint: ["/bin/sh", "/entrypoint.sh"]
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
