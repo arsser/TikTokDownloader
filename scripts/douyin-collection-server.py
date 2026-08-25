@@ -13,7 +13,7 @@ from pydantic import BaseModel, Field
 from uvicorn import Config, Server
 
 from src.config import Parameter, Settings
-from src.custom import PROJECT_ROOT
+from src.custom import VOLUME
 from src.interface.collection import Collection
 from src.interface.template import API
 from src.manager import Database, DownloadRecorder
@@ -116,7 +116,7 @@ async def fetch_collection(pages: int, count: int) -> list[dict[str, Any]]:
         chrome_error = exc
 
     console = ColorfulConsole()
-    settings = Settings(PROJECT_ROOT, console)
+    settings = Settings(VOLUME, console)
     cookie_mod = Cookie(settings, console)
     db = Database()
     await db.__aenter__()
